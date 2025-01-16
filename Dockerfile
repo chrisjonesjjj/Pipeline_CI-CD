@@ -10,10 +10,10 @@ COPY package*.json ./
 # Installer les dépendances
 RUN npm ci
 
-# Copier le reste de l'
-COPY .env .env
+# Copier le reste des fichiers, y compris .env
 COPY . .
 
+# Générer le client Prisma
 RUN npx prisma generate
 
 # Construire l'application
@@ -28,10 +28,8 @@ WORKDIR /app
 # Définir l'environnement principal
 ENV NODE_ENV=production
 
-# Copier le fichier package.json nécessaire pour npm start
+# Copier les fichiers nécessaires depuis l'étape de construction
 COPY --from=builder /app/package.json ./
-
-# Copier les fichiers construits depuis l'étape de construction
 COPY --from=builder /app/next.config.js .
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
