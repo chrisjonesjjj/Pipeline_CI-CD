@@ -10,7 +10,8 @@ COPY package*.json ./
 # Installer les dépendances
 RUN npm ci
 
-# Copier le reste de l'application
+# Copier le reste de l'
+COPY .env .env
 COPY . .
 
 RUN npx prisma generate
