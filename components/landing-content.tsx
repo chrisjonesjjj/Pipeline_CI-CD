@@ -6,7 +6,7 @@ const testimonials = [
   {
     name: "Hercule IHASA",
     avatar: "P",
-    title: "DevOps Engineer andr Cloud Engineer",
+    title: "DevOps Engineer",
     description: "This is the best application I've ever used!",
     profileLink: "https://www.linkedin.com/in/prabhjot-singh-chugh/",
   },
