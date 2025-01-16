@@ -25,7 +25,7 @@ FROM node:22-alpine3.19 AS production
 WORKDIR /app
 
 # Définir l'environnement principal
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 
 # Copier le fichier package.json nécessaire pour npm start
 COPY --from=builder /app/package.json ./
