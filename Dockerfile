@@ -8,12 +8,11 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installer les dépendances
-RUN npm ci
+RUN npm install --frozen-lockfile
 
-# Copier le reste des fichiers, y compris .env
+# Copier le reste de l'application
 COPY . .
 
-# Générer le client Prisma
 RUN npx prisma generate
 
 # Construire l'application
@@ -28,13 +27,14 @@ WORKDIR /app
 # Définir l'environnement principal
 ENV NODE_ENV=production
 
-# Copier les fichiers nécessaires depuis l'étape de construction
+# Copier le fichier package.json nécessaire pour npm start
 COPY --from=builder /app/package.json ./
+
+# Copier les fichiers construits depuis l'étape de construction
 COPY --from=builder /app/next.config.js .
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/.env ./.env
 COPY --from=builder /app/prisma ./prisma
 
 # Exposer le port
