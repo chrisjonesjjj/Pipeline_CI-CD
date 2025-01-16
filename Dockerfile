@@ -4,9 +4,11 @@ FROM node:22-alpine3.19 AS builder
 # Définir le répertoire de travail
 WORKDIR /app
 
+# Copier d'abord le .env
+COPY .env .env
+
 # Copier les fichiers package.json et package-lock.json
 COPY package*.json ./
-COPY .env ./
 
 # Installer les dépendances
 RUN npm install --frozen-lockfile
