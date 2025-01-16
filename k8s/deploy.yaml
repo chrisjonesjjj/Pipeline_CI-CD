@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projet-master-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: projet-master
+  template:
+    metadata:
+      labels:
+        app: projet-master
+    spec:
+      containers:
+      - name: projet-master-container
+        image: 816069150405.dkr.ecr.us-east-1.amazonaws.com/projet-master:v1.0.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: projet-master-loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    app: projet-master
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
