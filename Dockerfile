@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copier les fichiers package.json et package-lock.json
 COPY package*.json ./
+COPY .env ./
 
 # Installer les dépendances
 RUN npm install --frozen-lockfile
