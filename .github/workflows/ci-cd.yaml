@@ -48,7 +48,7 @@ jobs:
 
     - name: Apply Kubernetes manifests
       run: |
-        kubectl apply -f k8s-deploy/deploy-k8s.yaml
+        kubectl apply -f k8s/deploy.yaml
 
     - name: Force restart pods
       run: kubectl rollout restart deployment/projet-master-deployment
