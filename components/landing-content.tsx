@@ -4,9 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const testimonials = [
   {
-    name: "Prabhjot Singh",
+    name: "Hercule IHASA",
     avatar: "P",
-    title: "Software Engineer",
+    title: "DevOps Engineer",
     description: "This is the best application I've ever used!",
     profileLink: "https://www.linkedin.com/in/prabhjot-singh-chugh/",
   },
