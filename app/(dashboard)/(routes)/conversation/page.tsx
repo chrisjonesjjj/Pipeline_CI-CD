@@ -42,9 +42,7 @@ const ConversationPage = () => {
       const userMessage: OpenAI.Chat.Completions.CreateChatCompletionRequestMessage = {role: 'user',content: values.prompt,};
       const newMessages = [...messages, userMessage];
       
-      const response = await axios.post('/api/conversation', { messages: newMessages });
-      setMessages((current) => [...current, userMessage, response.data]);
-      
+      toast.error("API Key has expired. Please check and update your key.");
       form.reset();
     } catch (error: any) {
       if (error?.response?.status === 403) {

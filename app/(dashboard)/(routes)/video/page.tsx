@@ -37,9 +37,7 @@ const VideoPage = () => {
     try {
       setVideo(undefined);
 
-      const response = await axios.post('/api/video', values);
-
-      setVideo(response.data[0]);
+      toast.error("API Key has expired. Please check and update your key.");
       form.reset();
     } catch (error: any) {
       if (error?.response?.status === 403) {
