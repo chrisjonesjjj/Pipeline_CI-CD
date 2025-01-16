@@ -11,7 +11,7 @@ const testimonials = [
     profileLink: "https://www.linkedin.com/in/prabhjot-singh-chugh/",
   },
   {
-    name: "Srishti Sharma",
+    name: "Jonathan LAM SECK",
     avatar: "S",
     title: "Software Engineer",
     description: "I use this daily for generating new photos!",
