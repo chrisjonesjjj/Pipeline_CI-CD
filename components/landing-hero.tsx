@@ -18,7 +18,7 @@ export const LandingHero = () => {
             options={{
               strings: [
                 "Chatbot",
-                "Photo Generative",
+                "Photo nationale",
                 "Video Generative",
                 "Music Generative",
                 "Code Generative"
