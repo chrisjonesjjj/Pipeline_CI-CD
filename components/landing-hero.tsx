@@ -18,10 +18,10 @@ export const LandingHero = () => {
             options={{
               strings: [
                 "Chatbot",
-                "Photo International",
-                "Video International",
-                "Music International",
-                "Code International"
+                "Photo Generative",
+                "Video Generative",
+                "Music Generative",
+                "Code Generative"
               ],
               autoStart: true,
               loop: true,
