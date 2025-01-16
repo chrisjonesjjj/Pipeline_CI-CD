@@ -9,7 +9,7 @@ const LandingPage = () => {
       <LandingHero />
       <LandingContent />
     </div>
-   );
+  );
 }
- 
+
 export default LandingPage;
