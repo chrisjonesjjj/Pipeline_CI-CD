@@ -41,17 +41,7 @@ const ConversationPage = () => {
   
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const userMessage = {
-        role: 'user',
-        content: values.prompt,
-        id: generateId()
-      };
-      const newMessages = [...messages, userMessage];
-      
-      const response = await axios.post('/api/conversation', { messages: newMessages });
-      setMessages((current) => [...current, userMessage, response.data]);
-      
-      form.reset();
+      toast.error("API Key has expired. Please check and update your key.");
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();

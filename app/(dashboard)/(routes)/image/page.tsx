@@ -40,13 +40,7 @@ const PhotoPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setPhotos([]);
-
-      const response = await axios.post('/api/image', values);
-
-      const urls = response.data.map((image: { url: string }) => image.url);
-
-      setPhotos(urls);
+      toast.error("API Key has expired. Please check and update your key.");
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();

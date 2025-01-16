@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Music, Send } from "lucide-react";
+import { Music } from "lucide-react";
 
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
@@ -35,13 +35,7 @@ const MusicPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setMusic(undefined);
-
-      const response = await axios.post('/api/music', values);
-      console.log(response)
-
-      setMusic(response.data.audio);
-      form.reset();
+      toast.error("API Key has expired. Please check and update your key.");
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
@@ -114,7 +108,7 @@ const MusicPage = () => {
         )}
       </div>
     </div>
-   );
+  );
 }
- 
+
 export default MusicPage;

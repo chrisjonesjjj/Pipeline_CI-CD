@@ -35,12 +35,7 @@ const VideoPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setVideo(undefined);
-
-      const response = await axios.post('/api/video', values);
-
-      setVideo(response.data[0]);
-      form.reset();
+      toast.error("API Key has expired. Please check and update your key.");
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
@@ -113,7 +108,7 @@ const VideoPage = () => {
         )}
       </div>
     </div>
-   );
+  );
 }
- 
+
 export default VideoPage;
