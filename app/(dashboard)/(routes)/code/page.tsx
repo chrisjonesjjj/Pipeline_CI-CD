@@ -24,10 +24,12 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 
+const generateId = () => Math.random().toString(36).substring(7);
+
 const CodePage = () => {
   const router = useRouter();
   const proModal = useProModal();
-  const [messages, setMessages] = useState<OpenAI.Chat.Completions.CreateChatCompletionRequestMessage[]>([]);
+  const [messages, setMessages] = useState<(OpenAI.Chat.Completions.CreateChatCompletionRequestMessage & { id: string })[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,7 +42,15 @@ const CodePage = () => {
   
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      toast.error("API Key has expired. Please check and update your key.");
+      const userMessage = {
+        role: 'user',
+        content: values.prompt,
+        id: generateId()
+      };
+      const newMessages = [...messages, userMessage];
+      
+      const response = await axios.post('/api/code', { messages: newMessages });
+      setMessages((current) => [...current, userMessage, response.data]);
       
       form.reset();
     } catch (error: any) {
@@ -114,7 +124,7 @@ const CodePage = () => {
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
               <div 
-                key={message.content} 
+                key={message.id}
                 className={cn(
                   "p-8 w-full flex items-start gap-x-8 rounded-lg",
                   message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
@@ -131,7 +141,7 @@ const CodePage = () => {
                     <code className="bg-black/10 rounded-lg p-1" {...props} />
                   )
                 }} className="text-sm overflow-hidden leading-7">
-                  {message.content || ""}
+                  {String(message.content || "")}
                 </ReactMarkdown>
               </div>
             ))}
@@ -139,8 +149,8 @@ const CodePage = () => {
         </div>
       </div>
     </div>
-   );
+  );
 }
- 
+
 export default CodePage;
 

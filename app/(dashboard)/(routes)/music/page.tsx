@@ -37,7 +37,10 @@ const MusicPage = () => {
     try {
       setMusic(undefined);
 
-      toast.error("API Key has expired. Please check and update your key.");
+      const response = await axios.post('/api/music', values);
+      console.log(response)
+
+      setMusic(response.data.audio);
       form.reset();
     } catch (error: any) {
       if (error?.response?.status === 403) {

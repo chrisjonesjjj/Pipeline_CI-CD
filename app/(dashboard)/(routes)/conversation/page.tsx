@@ -23,10 +23,12 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 
+const generateId = () => Math.random().toString(36).substring(7);
+
 const ConversationPage = () => {
   const router = useRouter();
   const proModal = useProModal();
-  const [messages, setMessages] = useState<OpenAI.Chat.Completions.CreateChatCompletionRequestMessage[]>([]);
+  const [messages, setMessages] = useState<(OpenAI.Chat.Completions.CreateChatCompletionRequestMessage & { id: string })[]>([]);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,10 +41,16 @@ const ConversationPage = () => {
   
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const userMessage: OpenAI.Chat.Completions.CreateChatCompletionRequestMessage = {role: 'user',content: values.prompt,};
+      const userMessage = {
+        role: 'user',
+        content: values.prompt,
+        id: generateId()
+      };
       const newMessages = [...messages, userMessage];
       
-      toast.error("API Key has expired. Please check and update your key.");
+      const response = await axios.post('/api/conversation', { messages: newMessages });
+      setMessages((current) => [...current, userMessage, response.data]);
+      
       form.reset();
     } catch (error: any) {
       if (error?.response?.status === 403) {
@@ -116,7 +124,7 @@ const ConversationPage = () => {
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
               <div 
-                key={message.content} 
+                key={message.id} 
                 className={cn(
                   "p-8 w-full flex items-start gap-x-8 rounded-lg",
                   message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
@@ -124,7 +132,7 @@ const ConversationPage = () => {
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
                 <p className="text-sm">
-                  {message.content}
+                  {String(message.content || "")}
                 </p>
               </div>
             ))}
@@ -132,8 +140,8 @@ const ConversationPage = () => {
         </div>
       </div>
     </div>
-   );
+  );
 }
- 
+
 export default ConversationPage;
 
